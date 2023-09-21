@@ -1,5 +1,7 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { colors } from '../utils/colors'
+import axios from 'axios';
+import { useSession, signIn, signOut } from 'next-auth/react'
 
 interface Props {
   onSubmit: (state: { name: string; color: string }) => void
@@ -7,22 +9,49 @@ interface Props {
 }
 
 const InputColors = ({ onSubmit, colorsOnTop = true }: Props) => {
+  const { data: session } = useSession()
   const [state, setState] = useState({
     name: '',
     color: 'neutral',
     showColors: false,
   })
+  const [tasks, setTasks] = useState([])
+
+  const getTasks = async ({ }) => {
+    axios.get("http://localhost:3000/api/task").then((result) => {
+      setTasks(result.data)
+      console.log(result)
+    }).catch((err) => {
+      console.error(err)
+    });
+  }
+
+  useEffect(() => {
+    getTasks
+  })
 
   const submit = (event: FormEvent) => {
     event.preventDefault()
+    console.log(state)
+
     onSubmit({ name: state.name, color: state.color })
     setState({ ...state, name: '', showColors: false })
+    axios.post("http://localhost:3000/api/task/create", {
+      name: state.name,
+      color: state.color,
+      user: session?.user?.email
+    }).then((result) => {
+
+    }).catch((err) => {
+
+    });
   }
 
   return (
     <div className={`w-full flex ${colorsOnTop ? 'flex-col' : 'flex-col-reverse'}`}>
+
       <div className={`flex justify-evenly items-center gap-2 transition-all duration-300 ${state.showColors ? 'opacity-100 py-5' : 'opacity-0 p-0 h-0'}`}>
-        {Object.entries(colors).map(([color, classes]) => (
+        {tasks.map(([color, classes]) => (
           <button key={color} onClick={() => setState({ ...state, color })} type="button" className={`w-7 h-7 rounded-full border-2 transition duration-200 ${classes.border} ${state.color === color ? classes.bg : 'bg-inherit'}`}></button>
         ))}
       </div>
