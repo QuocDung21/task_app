@@ -11,6 +11,7 @@ export default NextAuth({
     }),
     // Bạn có thể thêm các providers khác nếu muốn
   ],
+  secret: 'đáiiuoqưeyuguawnedqjkwhudi',
   callbacks: {
     async session({ session, token, user }) {
       await connectMongoDB()
