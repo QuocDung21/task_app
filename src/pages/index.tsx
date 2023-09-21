@@ -15,6 +15,7 @@ export default function Home() {
   return (
     <Layout>
       <>
+      
         {
           session ? (<>   <InputColors onSubmit={addFolder} colorsOnTop={false} />
             {Object.keys(folders).length > 0 ? (
