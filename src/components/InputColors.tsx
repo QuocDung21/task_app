@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import { colors } from '../utils/colors'
 import axios from 'axios';
 import { useSession, signIn, signOut } from 'next-auth/react'
+import { baseUrl } from '../config/gobal';
 
 interface Props {
   onSubmit: (state: { name: string; color: string }) => void
@@ -52,7 +53,8 @@ const InputColors = ({ onSubmit, colorsOnTop = true }: Props) => {
 
       <div className={`flex justify-evenly items-center gap-2 transition-all duration-300 ${state.showColors ? 'opacity-100 py-5' : 'opacity-0 p-0 h-0'}`}>
         {tasks.map(([color, classes]) => (
-          <button key={color} onClick={() => setState({ ...state, color })} type="button" className={`w-7 h-7 rounded-full border-2 transition duration-200 ${classes.border} ${state.color === color ? classes.bg : 'bg-inherit'}`}></button>
+          <button key={color} onClick={() => setState({ ...state, color })} type="button" className={`w-7 h-7 rounded-full border-2 transition duration-200 `}></button>
+          // <button key={color} onClick={() => setState({ ...state, color })} type="button" className={`w-7 h-7 rounded-full border-2 transition duration-200 ${classes.border} ${state.color === color ? classes.bg : 'bg-inherit'}`}></button>
         ))}
       </div>
       <form onSubmit={submit} className="w-full flex justify-between items-center px-4 py-2 rounded-xl bg-gray-100 dark:bg-gray-800 dark:text-gray-200">
