@@ -18,7 +18,7 @@ const InputColors = ({ onSubmit, colorsOnTop = true }: Props) => {
   const [tasks, setTasks] = useState([])
 
   const getTasks = async ({ }) => {
-    axios.get("http://localhost:3000/api/task").then((result) => {
+    axios.get(`${baseUrl + "/api/task"}`).then((result) => {
       setTasks(result.data)
       console.log(result)
     }).catch((err) => {
@@ -36,7 +36,7 @@ const InputColors = ({ onSubmit, colorsOnTop = true }: Props) => {
 
     onSubmit({ name: state.name, color: state.color })
     setState({ ...state, name: '', showColors: false })
-    axios.post("http://localhost:3000/api/task/create", {
+    axios.post(`${baseUrl + "api/task/create"}`, {
       name: state.name,
       color: state.color,
       user: session?.user?.email
