@@ -1,4 +1,5 @@
 import { useSession, signIn, signOut } from 'next-auth/react'
+import Image from 'next/image'
 
 const info = () => {
     const { data: session } = useSession()
@@ -9,7 +10,7 @@ const info = () => {
                     <div className='flex justify-center items-center'>
                         <div className='mr-2'> Xin chào : {session.user?.name}</div>
                         <div>
-                            <img className='rounded-xl' width={30} height={30} src={session.user?.image} />
+                            <Image src={session?.user?.image} className='rounded-xl' width={30} alt="Picture of the author" height={30} />
                         </div>
                     </div>
                 </>) : " Ghi chú của tôi"
